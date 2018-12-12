@@ -1,0 +1,12 @@
+
+## Emacs
+*~
+\#*\#
+
+## Java
+*.class
+
+## IDEA
+*.iml
+*.idea/
+out/

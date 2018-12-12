@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+rm *.jar *.class
+javac -cp ${JAVA_HOME}/lib/tools.jar *.java
+jar cvfm Agent.jar manifest.txt Agent.class Transformer.class
+java -cp ${JAVA_HOME}/lib/tools.jar:Agent.jar:. Test
