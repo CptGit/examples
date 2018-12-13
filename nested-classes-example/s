@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -f example/*.class
+javac example/*.java
+java example/Main

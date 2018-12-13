@@ -1,6 +1,6 @@
-package test.objecthistory.recorded;
+package example;
 
-public class Outer {
+class Outer {
     String str;
     public Outer() {
         this.str = "Outer";
@@ -13,9 +13,6 @@ public class Outer {
             this.str = "Static Nested Class";
             System.out.println(str);
         }
-//        public void print() {
-//            System.out.println(str);
-//        }
     }
 
     public class Member {
@@ -24,9 +21,6 @@ public class Outer {
             this.str = "Member Class";
             System.out.println(str);
         }
-//        public void print() {
-//            System.out.println(str);
-//        }
     }
 
     public void declareLocal() {
@@ -36,12 +30,8 @@ public class Outer {
                 this.str = "Local Class";
                 System.out.println(str);
             }
-//            void print() {
-//                System.out.println(str);
-//            }
         }
         Local local = new Local();
-//        local.print();
     }
 
     public void declareAnonymous() {
@@ -51,12 +41,9 @@ public class Outer {
                 this.str = "Anonymous Class";
                 System.out.println(str);
             }
-//            public void print() {
-//                System.out.println(str);
-//            }
-        };// .print();
+        };
     }
-
+    
     public void declareMember() {
         Member member = new Member();
     }

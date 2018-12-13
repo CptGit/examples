@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -f example/*.jar example/*.class
+javac -cp ${JAVA_HOME}/lib/tools.jar example/*.java
+jar cvfm example/Agent.jar example/manifest.txt example/Agent.class example/Transformer.class
+java -cp ${JAVA_HOME}/lib/tools.jar:example/Agent.jar:. example/Test

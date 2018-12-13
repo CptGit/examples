@@ -5,7 +5,7 @@ import java.lang.management.ManagementFactory;
 import com.sun.tools.attach.VirtualMachine;
 
 public class AgentLoader {
-    private static final String jarFilePath = "Agent.jar";
+    private static final String jarFilePath = "example/Agent.jar";
 
     public static void loadAgent() {
         System.out.println("Dynamically Loading javaagent.");

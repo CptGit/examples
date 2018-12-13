@@ -1,4 +1,4 @@
-Premain-Class: Agent
+Premain-Class: example.Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
-Agent-Class: Agent
+Agent-Class: example.Agent
