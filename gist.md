@@ -366,3 +366,13 @@ up/down preferences.
         </alias>
 </fontconfig>
 ```
+
+
+### [Bash] Read line by line from a file OR read a csv file
+```bash
+while IFS='' read -r line || [[ -n "${line}" ]]; do
+    IFS=',' read -ra arr <<< "${line}"
+    local var1="${arr[0]}"
+    ...
+done < input.txt
+```
