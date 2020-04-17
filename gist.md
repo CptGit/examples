@@ -376,3 +376,7 @@ while IFS='' read -r line || [[ -n "${line}" ]]; do
     ...
 done < input.txt
 ```
+
+
+### [Bash] CAUTION! `<<<` gives you an extra newline
+`<<< "${x}"` actually gives you `"${x}\n"`. Sometimes you want to use `< <(printf "${x}")` instead.
