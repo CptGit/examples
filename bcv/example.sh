@@ -1,29 +1,35 @@
 #!/bin/bash
 
 ### Usage:
-### ./example.sh --main hello
+### ./example.sh --main hello --msg "2021"
 
-readonly _DIR="$( cd -P "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )" )" && pwd )"
+readonly BCV_DIR="./BCV" # the directory of BCV.
 
 
 ### Imports.
 ### --------
 
-. BCV/Main.sh # Must import Main.sh of BCV
+. ${BCV_DIR}/Main.sh # Must import Main.sh of BCV
 
 
 ### Fields.
 ### -------
 
-WELCOME_MSG="New construction options!"
+# f_x=""
+f_msg="World" # a key-value pair
+f_quiet=0 # an option
 
 
 ### Functions.
 ### ----------
 
 function hello() {
+        ### If option `quiet` is not set, then print the message.
 
-        printf "${WELCOME_MSG}\n"
+        if ! -B- $f_quiet; then # -B- is a syntactic sugar to cast any
+                                # value to a bool.
+                printf "Hello, ${f_msg}!\n"
+        fi
 }
 
 

@@ -1,5 +1,50 @@
 #!/bin/bash
 
+### Syntactic sugar.
+### ----------------
+
+function -B-() {
+        ### Cast value to bool type. We use C-like rule, treating zero
+        ### as false otherwise true.
+        ### @val any value
+        local val=$1;
+
+        ## This might look weird but "return 0" means OK (true) in
+        ## Bash.
+        if [[ "$val" == "0" ]]; then
+                return 1
+        else
+                return 0
+        fi
+}
+
+
+### Type.
+### -----
+
+function is_function_set() {
+        ### Return true if the given name is a function defined in the
+        ### script.
+        ### @name function name
+        local name="$1"
+
+        if [[ "$( type -t "$name" )" = 'function' ]]; then
+                return 0
+        else
+                return 1
+        fi
+}
+
+function is_variable_set() {
+        ### Returns true if the given variable is set.
+        ### @name variable name
+        local name="$1"
+
+        eval "ret=\$( test ! -z \${${name}+x} )"
+        return $ret
+}
+
+
 ### Log.
 ### ----
 
@@ -46,6 +91,10 @@ function log0() {
         esac
 }
 
+
+### Println.
+### --------
+
 function println() {
         ### Print message to std out with a newline.
         ### @msg
@@ -55,7 +104,7 @@ function println() {
 }
 
 function println_err() {
-        ### Print message to std out with a newline.
+        ### Print message to std err with a newline.
         ### @msg
         local msg="$1"
 
@@ -71,8 +120,9 @@ function assert_var_set() {
         ### @name variable name
 
         local name="$1"; shift
-        ## TODO: differentiate unset and empty
-        test -z "${!name}" && log e "Variable \"${name}\" is NOT set!"
+        if ! is_variable_set "$name"; then
+                log e "Variable \"${name}\" is NOT set!"
+        fi
 }
 
 function assert_file_exists() {
