@@ -380,3 +380,22 @@ done < input.txt
 
 ### [Bash] CAUTION! `<<<` gives you an extra newline
 `<<< "${x}"` actually gives you `"${x}\n"`. Sometimes you want to use `< <(printf "${x}")` instead.
+
+### [Bash] Use `"${arr[*]}"` to print an array
+
+`$*`: `$1 $2 $3`
+`$@`: `$1 $2 $3`
+`"$*"`: `"$1 $2 $3" # Double quote entirely`
+`"$@"`: `"$1" "$2" "$3" # Double quote separately`
+
+### [Bash] Correctly decide if a variable is set
+
+`-z ${var}` cannot differentiate unset and empty. Use `-z ${var+x}`.
+
+```bash
+if [[ -z ${var+x} ]]; then
+    echo "unset"
+else
+    echo "set"
+fi
+``
