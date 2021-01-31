@@ -6,15 +6,15 @@ function print_args() {
 
         local is_first=1
         printf "_r_kvargs: "
-        for k in ${!_r_kvargs[@]}; do
-                if -B- $is_first; then
-                        printf " "
-                else
+        for k in "${!_r_kvargs[@]}"; do
+                if _bool_ $is_first; then
                         is_first=0
+                else
+                        printf " "
                 fi
                 printf "${k}=${_r_kvargs[$k]}"
         done
         printf "\n"
 
-        printf "_r_optargs: "${_r_optargs[@]}"\n"
+        printf "_r_optargs: ${_r_optargs[*]}\n"
 }

@@ -3,15 +3,15 @@
 ### Syntactic sugar.
 ### ----------------
 
-function -B-() {
+function _bool_() {
         ### Cast value to bool type. We use C-like rule, treating zero
         ### as false otherwise true.
         ### @val any value
-        local val=$1;
+        local val="$1"
 
         ## This might look weird but "return 0" means OK (true) in
         ## Bash.
-        if [[ "$val" == "0" ]]; then
+        if [[ $val == 0 ]]; then
                 return 1
         else
                 return 0

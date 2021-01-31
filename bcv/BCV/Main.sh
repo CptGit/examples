@@ -2,6 +2,12 @@
 
 readonly BCV_ROOT_DIR=$( cd -P "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )" )" && pwd )
 
+### Environments.
+### -------------
+
+## TODO: Treat unset variables as an error.
+# set -u
+
 
 ### Imports.
 ### --------
@@ -22,42 +28,52 @@ _r_main="" ## function as entry
 function parse_args() {
         ### Parse arguments.
 
-        while [[ "$#" -gt 0 ]]; do
+        local is_pos=0
+        while [[ $# -gt 0 ]]; do
                 local arg="$1"
 
-                case "$arg" in
-                '-h'|'--help')
+                ## We have to use else if because case does not
+                ## support regexp.
+                if _bool_ $is_pos; then
+                        ## Treat as a positional argument.
+                        _r_positional+=("$1")
+                        shift # past argument
+                elif [[ $arg == '--help' ]]; then
                         println "Usage: SCRIPT --main FUNCTION --FIELD VALUE"
                         println
                         println "Example: "
                         println "  ./example.sh --main hello --msg 2021"
                         exit 0
-                        ;;
-                '--main')
+                elif [[ $arg == '--main' ]]; then
                         _r_main="$2"
                         shift # past key
                         shift # past value
-                        ;;
-                '--'?*)
+                elif [[ $arg =~ \-\-[[:alnum:]_][[:alnum:]]* ]]; then
                         local key="${arg:2}"
-                        if [[ "$2" == '--'?* || $2 == '' ]]; then
-                                ## This is actually an option.
+                        if [[ $# -eq 1 || $2 == '--'* ]]; then
+                                ## If there is no argument following
+                                ## or the next one starts with --,
+                                ## then the current one is actually an
+                                ## option.
                                 _r_optargs+=("$key")
-                                shift
+                                shift # past key/option
                         else
-                                ## This is really a key-value pair.
+                                ## Otherwise the current one is really
+                                ## a key-value pair.
                                 _r_kvargs["$key"]+="$2"
-                                shift
-                                shift
+                                shift # past key/option
+                                shift # past value
                         fi
-                        ;;
-                *) # unknown option
-                        _r_positional+=("$1") # save it in an array for later
-                        shift # past argument
-                        ;;
-                esac
+                elif [[ $arg == '--' ]]; then
+                        # treat the following arguments as positional.
+                        is_pos=1
+                        shift
+                else
+                        log e "unrecognized argument: $arg"
+                fi
         done
-        set -- "${_r_positional[@]}"
+
+        # set -- "${_r_positional[@]}"
 }
 
 function set_fields() {
@@ -103,6 +119,10 @@ function main() {
 
         parse_args "$@"
 
+        ## DEBUG
+        # printf "_r_main: ${_r_main}\n"
+        # print_args
+
         ## Check if main is set
         if [[ -z ${_r_main} ]]; then
                 log e "main function is NOT specified!"
@@ -112,9 +132,6 @@ function main() {
         if ! is_function_set "$_r_main"; then
                 log e "function $_r_main is NOT defined!"
         fi
-
-        ## DEBUG
-        # print_args
 
         set_fields
 

@@ -15,7 +15,6 @@ readonly BCV_DIR="./BCV" # the directory of BCV.
 ### Fields.
 ### -------
 
-# f_x=""
 f_msg="World" # a key-value pair
 f_quiet=0 # an option
 
@@ -26,8 +25,7 @@ f_quiet=0 # an option
 function hello() {
         ### If option `quiet` is not set, then print the message.
 
-        if ! -B- $f_quiet; then # -B- is a syntactic sugar to cast any
-                                # value to a bool.
+        if ! _bool_ $f_quiet; then
                 printf "Hello, ${f_msg}!\n"
         fi
 }
