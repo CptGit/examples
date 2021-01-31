@@ -4,30 +4,43 @@
 ### ----
 
 function log() {
-        ### Log messages.
-        ### @type log level, one of "info, debug, error or warning"
+        ### Log messages with "BCV:" as a prefix.
+        ### @level log level, one of "info, debug, error or warning"
         ### @msg text of log
 
-        local type="$1"; shift
+        local level="$1"; shift
         local msg="$1"; shift
 
-        case "$type" in
+        log0 "$level" "$msg" "BCV:"
+}
+
+function log0() {
+        ### Log messages.
+        ### @level log level, one of "info, debug, error or warning"
+        ### @msg text of log
+        ### @prefix prefix added to the message
+
+        local level="$1"; shift
+        local msg="$1"; shift
+        local prefix="$1"; shift
+
+        case "$level" in
         'i'|'info')
-                printf "[INFO] ${msg}\n"
+                printf "${prefix}INFO: ${msg}\n"
                 ;;
         'd'|'debug')
-                printf "[DEBUG] ${msg}\n"
+                printf "${prefix}DEBUG: ${msg}\n"
                 ;;
         'e'|'error')
-                printf "[ERROR] ${msg}\n"
+                printf "${prefix}ERROR: ${msg}\n"
                 ## TODO: is it good to exit here?
                 exit
                 ;;
         'w'|'warning')
-                printf "[WARNING] ${msg}\n"
+                printf "${prefix}WARNING: ${msg}\n"
                 ;;
         *)
-                printf "[UNCATEGORIZED] ${msg}\n"
+                printf "${prefix}UNCATEGORIZED: ${msg}\n"
                 ;;
         esac
 }
@@ -39,10 +52,8 @@ function log() {
 function assert_var_set() {
         ### Assert a variable is set.
         ### @name variable name
-        ### @value variable value
 
         local name="$1"; shift
-        local val="$1"; shift
 
         test -z "${!name}" && log e "Variable \"${name}\" is NOT set!"
 }
