@@ -34,14 +34,14 @@ function log0() {
         'e'|'error')
                 println_err "${prefix}ERROR: ${msg}"
                 ## TODO: is it good to exit here?
-                exit
+                exit 1
                 ;;
         'w'|'warning')
                 println_err "${prefix}WARNING: ${msg}"
                 ;;
         *)
-                println_err "${prefix}ERROR: Unrecognized logging level: ${level}!"
-                exit
+                println_err "${prefix}ERROR: Unrecognized logging level: ${level}"
+                exit 1
                 ;;
         esac
 }
@@ -51,7 +51,7 @@ function println() {
         ### @msg
         local msg="$1"
 
-        printf "${msg}\n"
+        printf -- "${msg}\n"
 }
 
 function println_err() {
@@ -71,7 +71,7 @@ function assert_var_set() {
         ### @name variable name
 
         local name="$1"; shift
-
+        ## TODO: differentiate unset and empty
         test -z "${!name}" && log e "Variable \"${name}\" is NOT set!"
 }
 

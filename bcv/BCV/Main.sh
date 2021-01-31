@@ -7,25 +7,49 @@ readonly BCV_ROOT_DIR=$( cd -P "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )
 ### --------
 
 . ${BCV_ROOT_DIR}/Utils.sh # utility functions.
+. ${BCV_ROOT_DIR}/Debug.sh # debugging functions.
 
 
-### Inner fields.
-### -------------
+### Parse command line arguments.
+### -----------------------------
 
+declare -A _kvargs=()
+declare -a _optargs=()
 declare -a _positional=()
+
 _main="" ## function as entry
 
 function parse_args() {
         ### Parse arguments.
 
         while [[ "$#" -gt 0 ]]; do
-                key="$1"
+                local arg="$1"
 
-                case "$key" in
+                case "$arg" in
+                '-h'|'--help')
+                        println "Usage: SCRIPT --main FUNCTION"
+                        println
+                        println "Example: "
+                        println "  ./example.sh --main hello"
+                        exit 0
+                        ;;
                 '--main')
                         _main="$2"
                         shift # past key
                         shift # past value
+                        ;;
+                '--'?*)
+                        local key="${arg:2}"
+                        if [[ "$2" == '--'?* ]]; then
+                                ## This is actually an option.
+                                _optargs+=("$key")
+                                shift
+                        else
+                                ## This is really a key-value pair.
+                                _kvargs["$key"]+="$2"
+                                shift
+                                shift
+                        fi
                         ;;
                 *) # unknown option
                         _positional+=("$1") # save it in an array for later
@@ -35,6 +59,7 @@ function parse_args() {
         done
         set -- "${_positional[@]}"
 }
+
 
 function is_function() {
         ### Return true if the given name is a function defined in the
@@ -66,6 +91,9 @@ function main() {
         if ! is_function "$_main"; then
                 log e "function $_main is NOT defined!"
         fi
+
+        ## DEBUG
+        # print_args
 
         ## Execute the function
         $_main "${_positional[@]}"
