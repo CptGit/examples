@@ -4,7 +4,7 @@
 ### ----
 
 function log() {
-        ### Log messages with "BCV:" as a prefix.
+        ### Log.
         ### @level log level, one of "info, debug, error or warning"
         ### @msg text of log
 
@@ -26,23 +26,40 @@ function log0() {
 
         case "$level" in
         'i'|'info')
-                printf "${prefix}INFO: ${msg}\n"
+                println_err "${prefix}INFO: ${msg}"
                 ;;
         'd'|'debug')
-                printf "${prefix}DEBUG: ${msg}\n"
+                println_err "${prefix}DEBUG: ${msg}"
                 ;;
         'e'|'error')
-                printf "${prefix}ERROR: ${msg}\n"
+                println_err "${prefix}ERROR: ${msg}"
                 ## TODO: is it good to exit here?
                 exit
                 ;;
         'w'|'warning')
-                printf "${prefix}WARNING: ${msg}\n"
+                println_err "${prefix}WARNING: ${msg}"
                 ;;
         *)
-                printf "${prefix}UNCATEGORIZED: ${msg}\n"
+                println_err "${prefix}ERROR: Unrecognized logging level: ${level}!"
+                exit
                 ;;
         esac
+}
+
+function println() {
+        ### Print message to std out with a newline.
+        ### @msg
+        local msg="$1"
+
+        printf "${msg}\n"
+}
+
+function println_err() {
+        ### Print message to std out with a newline.
+        ### @msg
+        local msg="$1"
+
+        println "${msg}" 1>&2
 }
 
 

@@ -6,7 +6,7 @@ readonly BCV_ROOT_DIR=$( cd -P "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )
 ### Imports.
 ### --------
 
-. ${BCV_ROOT_DIR}/utils.sh # utility functions.
+. ${BCV_ROOT_DIR}/Utils.sh # utility functions.
 
 
 ### Inner fields.

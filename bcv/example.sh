@@ -9,7 +9,7 @@ readonly _DIR="$( cd -P "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )" )" &&
 ### Imports.
 ### --------
 
-. BCV/main.sh # Must import main.sh of BCV
+. BCV/Main.sh # Must import Main.sh of BCV
 
 
 ### Fields.
