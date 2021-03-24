@@ -399,3 +399,13 @@ else
     echo "set"
 fi
 ``
+
+### [ASM] COMPUTE_FRAMES is incompetent
+
+To put it simple, `COMPUTE_FRAMES` is not able to always correctly
+compute stack map frames for you (if any the computation itself is
+consuming) so you might want to replace the flag with `COMPUTE_MAXS`
+and do the computation by yourself.
+
+See a detailed elaboration at
+<https://stackoverflow.com/questions/49222338/which-class-hierarchy-differences-can-exist-compared-to-the-jse-javadoc/49262105#49262105>
