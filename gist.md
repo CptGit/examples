@@ -321,7 +321,7 @@ To make it permanent, add this to your .emacs file:
 (setq c-offsets-alist '((arglist-cont-nonempty . +)))
 ```
 
-### [Bash] Deal with symbolic/relative/both link when get script absolute path
+### [Bash] Deal with symbolic/relative/both link when getting the absolute path of the script
 
 ```bash
 _DIR="$( cd -P "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )" )" && pwd )"
@@ -331,7 +331,7 @@ _DIR="$( cd -P "$( dirname "$( readlink -f "${BASH_SOURCE[0]}" )" )" && pwd )"
 Edit "/etc/fonts/conf.avail/64-language-selector-prefer.conf" to move
 up/down preferences.
 
-```
+```xml
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
@@ -388,7 +388,7 @@ done < input.txt
 `"$*"`: `"$1 $2 $3" # Double quote entirely`
 `"$@"`: `"$1" "$2" "$3" # Double quote separately`
 
-### [Bash] Correctly decide if a variable is set
+### [Bash] Correct way to decide if a variable is set
 
 `-z ${var}` cannot differentiate unset and empty. Use `-z ${var+x}`.
 
@@ -398,7 +398,7 @@ if [[ -z ${var+x} ]]; then
 else
     echo "set"
 fi
-``
+```
 
 ### [ASM] COMPUTE_FRAMES is incompetent
 
@@ -409,3 +409,15 @@ and do the computation by yourself.
 
 See a detailed elaboration at
 <https://stackoverflow.com/questions/49222338/which-class-hierarchy-differences-can-exist-compared-to-the-jse-javadoc/49262105#49262105>
+
+### [BASH] Correct way to iterate files over a directory
+
+`for $( find ${A_DIR} -name "*.zip" ); do ...; done` is bad. I forgot
+why but at least it cannot parse filename with whitespace.
+
+The following is the correct way to iterate files over a given directory:
+```bash
+while IFS= read -r -d '' zip_file; do
+    ...
+done < <( find ${A_DIR} -name "*.zip" -print0 )
+```
