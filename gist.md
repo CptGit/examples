@@ -421,3 +421,13 @@ while IFS= read -r -d '' zip_file; do
     ...
 done < <( find ${A_DIR} -name "*.zip" -print0 )
 ```
+### [Hack] Download Java from Oracle without login
+
+1. Replace 'otn' with 'otn-pub' in the download link.
+
+2. Use `wget -c --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie"`.
+
+For example:
+```bash
+wget -c --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/11.0.12%2B8/f411702ca7704a54a79ead0c2e0942a3/jdk-11.0.12_linux-x64_bin.tar.gz
+```
