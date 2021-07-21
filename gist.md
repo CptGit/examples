@@ -423,6 +423,8 @@ done < <( find ${A_DIR} -name "*.zip" -print0 )
 ```
 ### [Hack] Download Java from Oracle without login
 
+[https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6](https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6)
+
 1. Replace 'otn' with 'otn-pub' in the download link.
 
 2. Use `wget -c --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie"`.
