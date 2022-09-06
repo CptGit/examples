@@ -367,7 +367,6 @@ up/down preferences.
 </fontconfig>
 ```
 
-
 ### [Bash] Read line by line from a file OR read a csv file
 ```bash
 while IFS='' read -r line || [[ -n "${line}" ]]; do
@@ -421,6 +420,7 @@ while IFS= read -r -d '' zip_file; do
     ...
 done < <( find ${A_DIR} -name "*.zip" -print0 )
 ```
+
 ### [Hack] Download Java from Oracle without login
 
 [https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6](https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6)
