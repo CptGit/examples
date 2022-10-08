@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -f example/*.jar example/*.class
+rm -f example/*.jar example/*.class example/redefined/*.class
 # ${JAVA_HOME}/lib/tools.jar is not provided since Java 9
 javac -cp ${JAVA_HOME}/lib/tools.jar example/*.java
 javac example/redefined/*.java
