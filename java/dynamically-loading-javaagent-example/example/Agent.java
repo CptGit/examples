@@ -1,6 +1,9 @@
 package example;
 
+import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Agent {
 
@@ -28,8 +31,16 @@ public class Agent {
         try {
             for (Class<?> clz : inst.getAllLoadedClasses()) {
                 String name = clz.getName();
-                if (name.equals("Hello") || name.equals("Test")) {
+                if (name.equals("example.Hello")) {
+                    // Redefine Hello.class
+                    inst.redefineClasses(new ClassDefinition(clz, Files.readAllBytes(Paths.get("example/redefined/Hello.class"))));
+                    example.Hello.print();
+
                     inst.retransformClasses(clz);
+
+                    // Recover Hello.class
+                    inst.redefineClasses(new ClassDefinition(clz, Files.readAllBytes(Paths.get("example/Hello.class"))));
+                    example.Hello.print();
                 }
             }
         } catch (Exception ex) {

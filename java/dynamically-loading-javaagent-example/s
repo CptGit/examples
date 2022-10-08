@@ -1,6 +1,9 @@
 #!/bin/bash
 
 rm -f example/*.jar example/*.class
+# ${JAVA_HOME}/lib/tools.jar is not provided since Java 9
 javac -cp ${JAVA_HOME}/lib/tools.jar example/*.java
+javac example/redefined/*.java
 jar cvfm example/Agent.jar example/manifest.txt example/Agent.class example/Transformer.class
-java -cp ${JAVA_HOME}/lib/tools.jar:example/Agent.jar:. example/Test
+# -Djdk.attach.allowAttachSelf=true is necessary since Java 9
+java -Djdk.attach.allowAttachSelf=true -cp ${JAVA_HOME}/lib/tools.jar:example/Agent.jar:. example/Test

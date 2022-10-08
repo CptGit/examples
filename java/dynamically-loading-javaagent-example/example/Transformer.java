@@ -15,28 +15,28 @@ public class Transformer implements ClassFileTransformer {
         }
 
         try {
-            System.out.println("Transforming " + className);
-            if (isClassRedefined(classBeingRedefined)) {
-                return deleteInstrumentation(classLoader, className, classfileBuffer);
+            if (isClassRedefinedOrRetransformed(classBeingRedefined)) {
+                return retransformClass(classLoader, className, classfileBuffer);
             } else {
-                return instrumentClass(classLoader, className, classfileBuffer);
+                return firstTransformClass(classLoader, className, classfileBuffer);
             }
         } catch (Throwable t) {
             throw new RuntimeException("Failed to transform.");
         }
     }
 
-    private byte[] instrumentClass(ClassLoader classLoader, String className, byte[] classfileBuffer) {
-        System.out.println("Instrumenting " + className);
+    private byte[] firstTransformClass(ClassLoader classLoader, String className, byte[] classfileBuffer) {
+        System.out.println("First transforming " + className + " but we did not anything.");
         return null;
     }
 
-    private byte[] deleteInstrumentation(ClassLoader classLoader, String className, byte[] classfileBuffer) {
-        System.out.println("Deleting instrumentation " + className);
+    private byte[] retransformClass(ClassLoader classLoader, String className, byte[] classfileBuffer) {
+        System.out.println("Retransforming " + className + " but we did not anything.");
         return null;
     }
 
-    private boolean isClassRedefined(Class<?> classBeingRedefined) {
+    private boolean isClassRedefinedOrRetransformed(Class<?> classBeingRedefined) {
+        // classBeingRedefined will be null if the class is normally loaded
         return classBeingRedefined != null;
     }
 
